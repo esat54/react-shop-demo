@@ -18,7 +18,7 @@ const ProductCard = ({ product }) => {
             <div className="card-body">
                 <h3 className="product-title">{product.title}</h3>
 
-                <p className="product-price">{product.price.toFixed(2)} $</p>
+                <p className="product-price">${product.price.toFixed(2)}</p>
 
                 <Link to={`/product/${product.id}`} className="detail-button primary-button">
                     Detayı Gör

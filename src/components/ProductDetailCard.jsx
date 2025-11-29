@@ -1,7 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addItem } from '../slices/cartSlice';
 
 const ProductDetailCard = ({ product }) => {
     const ratingStars = '⭐'.repeat(Math.round(product.rating.rate));
+
+    const dispatch = useDispatch();
+
+    const [isAdding, setIsAdding] = useState(false)
+
+    const handleAddToCart = () => {
+
+        setIsAdding(true);
+        dispatch(addItem(product));
+        setTimeout(() => {
+            setIsAdding(false);
+        }, 1000);
+    };
 
     return (
         <div className="product-detail-container">
@@ -34,12 +49,12 @@ const ProductDetailCard = ({ product }) => {
                     {product.description}
                 </p>
 
-                <button className="detail-cart-button primary-button">
-                    Sepete Ekle
+                <button className="detail-cart-button primary-button" onClick={handleAddToCart} disabled={isAdding} >
+                    {isAdding ? 'Sepete Ekleniyor...' : 'Sepete Ekle'}
                 </button>
 
             </div>
-        </div>
+        </div >
     );
 };
 

@@ -12,6 +12,9 @@ function Header() {
         <Link to="/search" className="nav-link">
           Ürün Arama
         </Link>
+        <Link to="/cart" className="nav-link">
+          Sepet
+        </Link>
       </nav>
 
       <div className="right-area">
