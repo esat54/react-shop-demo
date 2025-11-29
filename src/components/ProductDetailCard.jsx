@@ -15,7 +15,7 @@ const ProductDetailCard = ({ product }) => {
         dispatch(addItem(product));
         setTimeout(() => {
             setIsAdding(false);
-        }, 1000);
+        }, 500);
     };
 
     return (
@@ -39,7 +39,7 @@ const ProductDetailCard = ({ product }) => {
                 </div>
 
                 <p className="detail-price">
-                    {product.price.toFixed(2)} $
+                    ${product.price.toFixed(2)}
                 </p>
 
                 <hr className="detail-divider" />

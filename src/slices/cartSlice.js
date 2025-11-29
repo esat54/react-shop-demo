@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { combineReducers, createSlice } from '@reduxjs/toolkit';
 
 const cartSlice = createSlice({
     name: 'cart',
@@ -16,34 +16,70 @@ const cartSlice = createSlice({
 
             const existingItem = state.items.find(item => item.id === newItem.id);
 
-            state.totalQuantity++;
-            state.totalAmount += newItem.price;
+            state.totalQuantity++;     
+            state.totalAmount += newItem.price; 
 
             if (existingItem) {
-                existingItem.quantity++;
+                existingItem.quantity++;       
             } else {
                 state.items.push({
                     ...newItem,
-                    quantity: 1, 
+                    quantity: 1
                 });
 
-                state.totalUniqueItems++; 
+                state.totalUniqueItems++;
             }
         },
 
         increaseItem: (state, action) => {
-            console.log('Increase action dispatched');
+            const itemId = action.payload;
+            const existingItem = state.items.find(item => item.id === itemId);
+
+            if (existingItem) {
+                existingItem.quantity++;
+
+                state.totalQuantity++;
+
+                state.totalAmount += existingItem.price;
+            }
         },
 
         decreaseItem: (state, action) => {
-            console.log('Decrease action dispatched');
+            const itemId = action.payload;
+            const existingItem = state.items.find(item => item.id === itemId);
+
+            if (existingItem) {
+
+                state.totalQuantity--;  
+                state.totalAmount -= existingItem.price;
+
+                if (existingItem.quantity === 1) {
+                    state.items = state.items.filter(item => item.id !== itemId);
+
+                    state.totalUniqueItems--;
+
+                } else {
+                    existingItem.quantity--;
+                }
+            }
         },
 
         removeItem: (state, action) => {
-            console.log('Remove action dispatched');
+            const itemId = action.payload;
+            const existingItem = state.items.find(item => item.id === itemId);
+
+            if (existingItem) {
+                state.items = state.items.filter(item => item.id !== itemId);
+
+                state.totalQuantity -= existingItem.quantity;
+                state.totalAmount -= (existingItem.price * existingItem.quantity);
+
+                state.totalUniqueItems--;
+            }
         }
     },
 });
 
 export const { addItem, increaseItem, decreaseItem, removeItem } = cartSlice.actions;
 export default cartSlice.reducer;
+

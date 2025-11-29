@@ -1,7 +1,25 @@
-import React from 'react';
+import React, { use, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addItem } from '../slices/cartSlice';
+
 
 const ProductCard = ({ product }) => {
+    const dispatch = useDispatch();
+
+    const [isAdding, setIsAdding] = useState(false)
+
+    const handleAddToCart = () => {
+
+        setIsAdding(true);
+        dispatch(addItem(product));
+        
+        setTimeout(() => {
+            setIsAdding(false);
+        }, 500);
+    }
+
+
     return (
         <div className="product-card">
 
@@ -20,10 +38,15 @@ const ProductCard = ({ product }) => {
 
                 <p className="product-price">${product.price.toFixed(2)}</p>
 
-                <Link to={`/product/${product.id}`} className="detail-button primary-button">
-                    Detayı Gör
-                </Link>
+                <div className="card-button-group">
+                    <Link to={`/product/${product.id}`} className="card-button primary-button">
+                        Detayı Gör
+                    </Link>
 
+                    <button className="card-button primary-button" onClick={handleAddToCart} disabled={isAdding} >
+                        {isAdding ? 'Ekleniyor...' : 'Sepete Ekle'}
+                    </button>
+                </div>
             </div>
 
         </div>

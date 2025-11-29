@@ -7,6 +7,8 @@ function CartItem({ product }) {
 
     const dispatch = useDispatch();
 
+    const itemTotalPrice = product.price * product.quantity;
+
     const handleIncrease = () => {
         dispatch(increaseItem(product.id));
     };
@@ -36,7 +38,7 @@ function CartItem({ product }) {
 
             <div className="cart-item-actions">
                 <div className="cart-item-price">
-                    ${product.price.toFixed(2)}
+                    <span><p style={{display: 'inline', marginRight: '5px', color: '#d9d9d9ff'}}>Fiyat:</p> ${product.price.toFixed(2)}</span>
                 </div>
 
                 <div className="cart-item-quantity">
@@ -49,9 +51,15 @@ function CartItem({ product }) {
                     </button>
                 </div>
 
-                <button onClick={handleRemove} className="cart-item-remove">
-                    🗑️ Sil
-                </button>
+                <div className="cart-item-footer">
+                    <div className="cart-item-total">
+                        <span className="cart-item-total-label">Toplam:</span>
+                        <span className="cart-item-total-price">${itemTotalPrice.toFixed(2)}</span>
+                    </div>
+                    <button onClick={handleRemove} className="cart-item-remove">
+                        🗑️ Sil
+                    </button>
+                </div>
             </div>
         </div>
     )
